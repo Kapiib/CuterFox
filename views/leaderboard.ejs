@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="no">
+    <%- include('partials/head.ejs') %>
+<body>
+    <h1>Rev Rangering</h1>
+    
+    <a href="/" class="back-button">Tilbake til avstemning</a>
+    
+    <% if (locals.error) { %>
+        <div class="error">
+            <p><%= error %></p>
+            <button onclick="location.href='/'">Gå tilbake</button>
+        </div>
+    <% } else { %>
+        <div class="leaderboard">
+            <% if (foxes.length === 0) { %>
+                <p class="no-votes">Ingen rever har fått stemmer enda.</p>
+            <% } else { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plass</th>
+                            <th>Rev</th>
+                            <th>Stemmer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% foxes.forEach((fox, index) => { %>
+                            <tr>
+                                <td><%= (currentPage-1) * limit + index + 1 %></td>
+                                <td><img src="<%= fox.imageUrl %>" alt="Rev <%= (currentPage-1) * limit + index + 1 %>" class="leaderboard-img"></td>
+                                <td><%= fox.votes %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <% if (hasPrevPage) { %>
+                        <a href="/api/vote/leaderboard?page=<%= prevPage %>&limit=<%= limit %>" class="page-link">&laquo; Forrige</a>
+                    <% } %>
+                    
+                    <span class="current-page">Side <%= currentPage %> av <%= totalPages %></span>
+                    
+                    <% if (hasNextPage) { %>
+                        <a href="/api/vote/leaderboard?page=<%= nextPage %>&limit=<%= limit %>" class="page-link">Neste &raquo;</a>
+                    <% } %>
+                </div>
+                
+                <div class="page-size">
+                    <label for="page-size-select">Resultater per side:</label>
+                    <select id="page-size-select">
+                        <option value="10" <%= limit === 10 ? 'selected' : '' %>>10</option>
+                        <option value="20" <%= limit === 20 ? 'selected' : '' %>>20</option>
+                        <option value="50" <%= limit === 50 ? 'selected' : '' %>>50</option>
+                    </select>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+    
+    <script>
+        document.getElementById('page-size-select')?.addEventListener('change', function() {
+            const limit = this.value;
+            window.location.href = `/api/vote/leaderboard?page=1&limit=${limit}`;
+        });
+    </script>
+</body>
+</html>
