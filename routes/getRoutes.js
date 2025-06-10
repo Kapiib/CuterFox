@@ -3,17 +3,24 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        // Fetch two random fox images using native fetch
-        const [fox1Response, fox2Response] = await Promise.all([
-            fetch('https://randomfox.ca/floof/'),
-            fetch('https://randomfox.ca/floof/')
-        ]);
-
-        const fox1Data = await fox1Response.json();
-        const fox2Data = await fox2Response.json();
-
-        const fox1 = fox1Data.image;
-        const fox2 = fox2Data.image;
+        // Fetch two random fox images that aren't identical
+        let fox1, fox2;
+        let attempts = 0;
+        const maxAttempts = 5;
+        
+        do {
+            // Fetch first random fox
+            const fox1Response = await fetch('https://randomfox.ca/floof/');
+            const fox1Data = await fox1Response.json();
+            fox1 = fox1Data.image;
+            
+            // Fetch second random fox
+            const fox2Response = await fetch('https://randomfox.ca/floof/');
+            const fox2Data = await fox2Response.json();
+            fox2 = fox2Data.image;
+            
+            attempts++;
+        } while (fox1 === fox2 && attempts < maxAttempts);
         
         res.render('index', { 
             title: 'Søteste Reven',
