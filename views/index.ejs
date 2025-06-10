@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="no">
+    <%- include('partials/head.ejs') %>
+<body>
+    <h1>Hvilken rev er søtest?</h1>
+    
+    <% if (locals.error) { %>
+        <div class="error">
+            <p><%= error %></p>
+            <button onclick="location.reload()">Prøv igjen</button>
+        </div>
+    <% } else { %>
+        <div class="fox-container">
+            <div class="fox-card">
+                <img src="<%= fox1 %>" alt="Rev 1" class="fox-image">
+                <button class="vote-button" data-image="<%= fox1 %>">Denne reven er søtest!</button>
+            </div>
+            
+            <div class="fox-card">
+                <img src="<%= fox2 %>" alt="Rev 2" class="fox-image">
+                <button class="vote-button" data-image="<%= fox2 %>">Denne reven er søtest!</button>
+            </div>
+        </div>
+        
+        <div id="feedback">
+            <p>Takk for din stemme! Du har valgt den søteste reven.</p>
+            <button class="new-vote" onclick="location.reload()">Se flere rever</button>
+        </div>
+    <% } %>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const voteButtons = document.querySelectorAll('.vote-button');
+            const feedbackElement = document.getElementById('feedback');
+            
+            voteButtons.forEach(button => {
+                button.addEventListener('click', async function() {
+                    // Disable all buttons to prevent multiple votes
+                    voteButtons.forEach(btn => btn.disabled = true);
+                    
+                    const imageUrl = this.getAttribute('data-image');
+                    
+                    try {
+                        const response = await fetch('/api/vote', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ imageUrl })
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            // Show feedback message
+                            feedbackElement.style.display = 'block';
+                            // Scroll to feedback
+                            feedbackElement.scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                            alert('Det oppstod en feil. Prøv igjen senere.');
+                            // Re-enable buttons on error
+                            voteButtons.forEach(btn => btn.disabled = false);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Det oppstod en feil. Prøv igjen senere.');
+                        // Re-enable buttons on error
+                        voteButtons.forEach(btn => btn.disabled = false);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
