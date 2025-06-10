@@ -113,7 +113,7 @@ h1 {
 /* Toast notification */
 .toast {
   position: fixed;
-  bottom: 30px;
+  top: 30px; /* Changed from bottom to top */
   left: 50%;
   transform: translateX(-50%);
   background-color: #323232;

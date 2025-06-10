@@ -37,13 +37,13 @@
                 
                 <div class="pagination">
                     <% if (hasPrevPage) { %>
-                        <a href="/api/vote/leaderboard?page=<%= prevPage %>&limit=<%= limit %>" class="page-link">&laquo; Forrige</a>
+                        <a href="/leaderboard?page=<%= prevPage %>&limit=<%= limit %>" class="page-link">&laquo; Forrige</a>
                     <% } %>
                     
                     <span class="current-page">Side <%= currentPage %> av <%= totalPages %></span>
                     
                     <% if (hasNextPage) { %>
-                        <a href="/api/vote/leaderboard?page=<%= nextPage %>&limit=<%= limit %>" class="page-link">Neste &raquo;</a>
+                        <a href="/leaderboard?page=<%= nextPage %>&limit=<%= limit %>" class="page-link">Neste &raquo;</a>
                     <% } %>
                 </div>
                 
@@ -62,7 +62,7 @@
     <script>
         document.getElementById('page-size-select')?.addEventListener('change', function() {
             const limit = this.value;
-            window.location.href = `/api/vote/leaderboard?page=1&limit=${limit}`;
+            window.location.href = `/leaderboard?page=1&limit=${limit}`;
         });
     </script>
 </body>

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const FoxVote = require('../models/foxVote');
 
+// Main page showing fox voting
 router.get('/', async (req, res) => {
     try {
         // Fetch two random fox images that aren't identical
@@ -32,6 +34,45 @@ router.get('/', async (req, res) => {
         res.status(500).render('index', { 
             title: 'Feil',
             error: 'Kunne ikke hente revebilder. Vennligst prøv igjen.'
+        });
+    }
+});
+
+// Leaderboard page
+router.get('/leaderboard', async (req, res) => {
+    try {
+        // Set up pagination
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+        
+        // Get total count for pagination
+        const totalFoxes = await FoxVote.countDocuments();
+        
+        // Get foxes with pagination
+        const foxes = await FoxVote.find()
+            .sort({ votes: -1 })
+            .skip(skip)
+            .limit(limit);
+        
+        const totalPages = Math.ceil(totalFoxes / limit);
+        
+        res.render('leaderboard', {
+            title: 'Rev Rangering',
+            foxes,
+            currentPage: page,
+            totalPages,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1,
+            nextPage: page + 1,
+            prevPage: page - 1,
+            limit
+        });
+    } catch (error) {
+        console.error('Error fetching leaderboard:', error);
+        res.status(500).render('leaderboard', {
+            title: 'Feil',
+            error: 'Kunne ikke hente rangeringen. Vennligst prøv igjen.'
         });
     }
 });

@@ -56,9 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Set up polling for statistics updates (every 30 seconds)
-    const statsInterval = setInterval(updateStatistics, 30000);
-    
     voteButtons.forEach(button => {
         button.addEventListener('click', async function() {
             // Disable all buttons to prevent multiple votes
@@ -100,11 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Fetch statistics on page load
+    // Fetch statistics on page load - only once
     updateStatistics();
-    
-    // Clean up interval when navigating away
-    window.addEventListener('beforeunload', function() {
-        clearInterval(statsInterval);
-    });
 });
