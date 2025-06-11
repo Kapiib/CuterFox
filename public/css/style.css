@@ -30,7 +30,8 @@ h1 {
 .fox-image {
   width: 100%;
   height: 300px;
-  object-fit: cover;
+  object-fit: contain; /* Changed from 'cover' to 'contain' */
+  background-color: #f8f8f8; /* Light background for the container */
   border-radius: 8px 8px 0 0;
 }
 .vote-button {
@@ -329,4 +330,18 @@ h1 {
 .nav-link.active {
   color: #f57c00;
   border-bottom: 2px solid #f57c00;
+}
+
+/* Add this new style */
+.fox-id {
+  margin: 10px 0 5px 0;
+  font-weight: bold;
+  color: #555;
+  font-size: 1.1em;
+}
+
+.fox-id-small {
+  font-size: 0.8em;
+  color: #555;
+  margin-top: 4px;
 }

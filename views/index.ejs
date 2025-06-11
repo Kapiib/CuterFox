@@ -14,13 +14,16 @@
         </div>
     <% } else { %>
         <div class="fox-container">
+            <!-- Update the fox-card divs -->
             <div class="fox-card">
                 <img src="<%= fox1 %>" alt="Rev 1" class="fox-image">
+                <p class="fox-id">Rev <%= getFoxId(fox1) %></p>
                 <button class="vote-button" data-image="<%= fox1 %>">Denne reven er søtest!</button>
             </div>
-            
+
             <div class="fox-card">
                 <img src="<%= fox2 %>" alt="Rev 2" class="fox-image">
+                <p class="fox-id">Rev <%= getFoxId(fox2) %></p>
                 <button class="vote-button" data-image="<%= fox2 %>">Denne reven er søtest!</button>
             </div>
         </div>

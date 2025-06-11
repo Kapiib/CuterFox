@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const FoxVote = require('../models/foxVote');
 
+// Add this helper function to your route file
+function getFoxId(imageUrl) {
+    const match = imageUrl.match(/\/images\/(\d+)\.jpg/);
+    return match ? match[1] : 'Ukjent';
+}
+
 // Main page showing fox voting
 router.get('/', async (req, res) => {
     try {
@@ -28,6 +34,7 @@ router.get('/', async (req, res) => {
             title: 'Søteste Reven',
             fox1,
             fox2,
+            getFoxId, // Pass the helper function
             activePage: 'home'
         });
     } catch (error) {
@@ -61,6 +68,7 @@ router.get('/leaderboard', async (req, res) => {
         res.render('leaderboard', {
             title: 'Rev Rangering',
             foxes,
+            getFoxId, // Add this line
             currentPage: page,
             totalPages,
             hasNextPage: page < totalPages,

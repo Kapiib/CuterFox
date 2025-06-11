@@ -29,7 +29,10 @@
                         <% foxes.forEach((fox, index) => { %>
                             <tr>
                                 <td><%= (currentPage-1) * limit + index + 1 %></td>
-                                <td><img src="<%= fox.imageUrl %>" alt="Rev <%= (currentPage-1) * limit + index + 1 %>" class="leaderboard-img"></td>
+                                <td>
+                                    <img src="<%= fox.imageUrl %>" alt="Rev <%= (currentPage-1) * limit + index + 1 %>" class="leaderboard-img">
+                                    <div class="fox-id-small">Rev <%= getFoxId(fox.imageUrl) %></div>
+                                </td>
                                 <td><%= fox.votes %></td>
                             </tr>
                         <% }); %>
