@@ -9,11 +9,9 @@ const foxVoteSchema = new mongoose.Schema({
   votes: {
     type: Number,
     default: 0
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
+}, { 
+  timestamps: true // This adds both createdAt and updatedAt automatically
 });
 
 module.exports = mongoose.model('FoxVote', foxVoteSchema);

@@ -86,6 +86,8 @@ Henter rangeringen av de mest populære revebildene.
 
 ## Prosjektskisse
 
+![CuterFox Nettverksdiagram](./public/uploads/Skjermbilde%202025-06-11%20143623.png)
+
 ### Systemarkitektur
 ```
 +----------------+      HTTP      +----------------+      +----------------+
@@ -98,24 +100,16 @@ Henter rangeringen av de mest populære revebildene.
 
 ### Database-tabeller
 
-#### Tabell: foxImages
-- `_id`: ObjectId (primærnøkkel)
-- `imageUrl`: String (unik)
-- `addedDate`: Date
-- `active`: Boolean
-
-#### Tabell: votes
+#### Tabell: foxVotes
 - `_id`: ObjectId (primærnøkkel)
 - `imageUrl`: String (fremmednøkkel til foxImages.imageUrl)
 - `timestamp`: Date
 - `userIdentifier`: String (anonym brukeridentifikator)
 
 ### IP-plan
-- **Frontend:** 192.168.1.10/24
-- **Backend:** 192.168.1.20/24
-- **Database:** 192.168.1.30/24 (lukket nettverk)
-- **Lastbalanserer:** 192.168.1.5/24
-- **Offentlig IP:** 203.0.113.10 (NAT til intern lastbalanserer)
+- **Backend:** 10.12.95.95/24
+- **Database:** 10.12.95.96/24 (lukket nettverk)
+- **DNS:** 10.12.95.10/24
 
 ## Sikkerhetsvurdering
 
@@ -150,4 +144,3 @@ Henter rangeringen av de mest populære revebildene.
 3. **Cross-Site Request Forgery (CSRF)**
    - Beskrivelse: Tvinger brukere til å utføre uønskede handlinger på en applikasjon de er autentisert på.
    - Mottak: Bruk anti-CSRF tokens for alle POST-forespørsler.
-
