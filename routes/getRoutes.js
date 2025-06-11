@@ -28,6 +28,7 @@ router.get('/', async (req, res) => {
             title: 'Søteste Reven',
             fox1,
             fox2,
+            activePage: 'home'
         });
     } catch (error) {
         console.error('Error fetching fox images:', error);
@@ -66,7 +67,8 @@ router.get('/leaderboard', async (req, res) => {
             hasPrevPage: page > 1,
             nextPage: page + 1,
             prevPage: page - 1,
-            limit
+            limit,
+            activePage: 'leaderboard'
         });
     } catch (error) {
         console.error('Error fetching leaderboard:', error);
@@ -75,6 +77,14 @@ router.get('/leaderboard', async (req, res) => {
             error: 'Kunne ikke hente rangeringen. Vennligst prøv igjen.'
         });
     }
+});
+
+// User guide page
+router.get('/guide', (req, res) => {
+    res.render('guide', { 
+        title: 'Brukerveiledning - Rev Avstemning',
+        activePage: 'guide'
+    });
 });
 
 module.exports = router;

@@ -1,11 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Get DOM elements we'll need to interact with
     const voteButtons = document.querySelectorAll('.vote-button');
     const feedbackElement = document.getElementById('feedback');
     const statisticsElement = document.getElementById('statistics');
     const topFoxesContainer = document.getElementById('top-foxes');
     const toastElement = document.getElementById('toast');
     
-    // Function to show toast notification
+    /**
+     * Display a temporary toast notification to the user
+     * @param {string} message - The message to display
+     * @param {number} duration - How long to show the message in milliseconds
+     */
     function showToast(message, duration = 5000) {
         toastElement.textContent = message;
         toastElement.classList.add('show');
@@ -15,7 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }, duration);
     }
     
-    // Function to fetch and display statistics
+    /**
+     * Fetch and display statistics about the most popular foxes
+     * Updates the UI with the top 5 foxes and shows which fox is in the lead
+     */
     async function updateStatistics() {
         try {
             const response = await fetch('/api/vote/stats');
@@ -45,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.leader) {
                     const leaderImageUrl = data.leader.imageUrl;
                     const leaderVotes = data.leader.votes;
+                    // Extract fox number from image URL (e.g. "57" from ".../images/57.jpg")
                     const foxNumber = leaderImageUrl.match(/\/images\/(\d+)\.jpg/);
                     const foxId = foxNumber ? foxNumber[1] : 'Ukjent';
                     
@@ -56,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Set up click handlers for vote buttons
     voteButtons.forEach(button => {
         button.addEventListener('click', async function() {
             // Disable all buttons to prevent multiple votes
@@ -64,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const imageUrl = this.getAttribute('data-image');
             
             try {
+                // Send the vote to the server
                 const response = await fetch('/api/vote', {
                     method: 'POST',
                     headers: {

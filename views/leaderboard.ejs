@@ -2,9 +2,10 @@
 <html lang="no">
     <%- include('partials/head.ejs') %>
 <body>
+
+    <%- include('partials/navbar.ejs') %>
+
     <h1>Rev Rangering</h1>
-    
-    <a href="/" class="back-button">Tilbake til avstemning</a>
     
     <% if (locals.error) { %>
         <div class="error">

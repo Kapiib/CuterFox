@@ -2,21 +2,30 @@ const express = require('express');
 const router = express.Router();
 const FoxVote = require('../models/foxVote');
 
+/**
+ * POST route to register a vote for a fox image
+ * Accepts imageUrl in the request body
+ * Creates a new record if the image hasn't been voted on before
+ * Otherwise increments the existing vote count
+ */
 router.post('/', async (req, res) => {
     try {
         const { imageUrl } = req.body;
         
+        // Validate that imageUrl is provided
         if (!imageUrl) {
             return res.status(400).json({ success: false, message: 'Manglende bilde-URL' });
         }
 
-        // Find and update or create new document
+        // Find if this image already has votes
         let foxVote = await FoxVote.findOne({ imageUrl });
         
         if (foxVote) {
+            // Increment vote count for existing image
             foxVote.votes += 1;
             await foxVote.save();
         } else {
+            // Create new entry for this image
             foxVote = new FoxVote({
                 imageUrl,
                 votes: 1
@@ -31,15 +40,18 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Add this new route to get statistics
+/**
+ * GET route to retrieve vote statistics
+ * Returns the top 5 most voted foxes and the current leader
+ */
 router.get('/stats', async (req, res) => {
     try {
-        // Get top 5 foxes
+        // Get top 5 foxes sorted by vote count
         const topFoxes = await FoxVote.find()
             .sort({ votes: -1 })
             .limit(5);
         
-        // Get the fox with most votes (leader)
+        // Determine the current leader (fox with most votes)
         const leader = topFoxes.length > 0 ? topFoxes[0] : null;
         
         return res.json({
