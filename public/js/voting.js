@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const data = await response.json();
                 
+                // Add this to the successful vote handler
                 if (data.success) {
                     // Show feedback message
                     feedbackElement.style.display = 'block';
@@ -94,6 +95,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Scroll to feedback
                     feedbackElement.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Add countdown timer
+                    const countdownElement = document.getElementById('countdown');
+                    let secondsLeft = 3;
+                    
+                    const countdownInterval = setInterval(function() {
+                        secondsLeft--;
+                        countdownElement.textContent = secondsLeft;
+                        
+                        if (secondsLeft <= 0) {
+                            clearInterval(countdownInterval);
+                        }
+                    }, 1000);
+                    
+                    // Add automatic page reload after 3 seconds
+                    setTimeout(function() {
+                        location.reload();
+                    }, 3000);
                 } else {
                     alert('Det oppstod en feil. Prøv igjen senere.');
                     // Re-enable buttons on error

@@ -345,3 +345,11 @@ h1 {
   color: #555;
   margin-top: 4px;
 }
+
+/* Add this new style for the autorefresh message */
+.autorefresh {
+  font-size: 0.9em;
+  font-style: italic;
+  color: #4a6572;
+  margin-top: 10px;
+}
