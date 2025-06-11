@@ -247,20 +247,42 @@ h1 {
 }
 .guide-section {
   margin-bottom: 30px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
 }
-.guide-image {
-  max-width: 100%;
-  border: 1px solid #ddd;
-  margin: 15px 0;
-}
-.step {
-  margin-bottom: 20px;
-  padding-left: 20px;
-}
-.step-number {
+
+.guide-summary {
+  padding: 15px 20px;
+  background-color: #f5f5f5;
   font-weight: bold;
+  cursor: pointer;
+  position: relative;
   color: #f57c00;
-  margin-right: 5px;
+  font-size: 1.2em;
+  transition: background-color 0.3s;
+}
+
+.guide-summary:hover {
+  background-color: #fff9f0;
+}
+
+.guide-content {
+  padding: 20px;
+  background-color: #ffffff;
+  /* Simple fade transition */
+  transition: opacity 0.2s ease;
+}
+
+/* Plus/minus icon */
+.guide-summary::after {
+  content: '+';
+  position: absolute;
+  right: 20px;
+}
+
+details[open] .guide-summary::after {
+  content: '−';
 }
 
 /* Add to your existing CSS */
@@ -398,4 +420,47 @@ h1 {
   object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Add these styles at the end of your existing CSS file */
+
+/* Guide page styles (moved from guide.ejs) */
+.guide-section {
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.guide-summary {
+    padding: 15px 20px;
+    background-color: #f5f5f5;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    color: #f57c00;
+    font-size: 1.2em;
+    transition: background-color 0.3s;
+}
+
+.guide-summary:hover {
+    background-color: #fff9f0;
+}
+
+.guide-content {
+    padding: 20px;
+    background-color: #ffffff;
+    /* Simple fade transition */
+    transition: opacity 0.2s ease;
+}
+
+/* Plus/minus icon */
+.guide-summary::after {
+    content: '+';
+    position: absolute;
+    right: 20px;
+}
+
+details[open] .guide-summary::after {
+    content: '−';
 }
