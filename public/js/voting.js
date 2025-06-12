@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const data = await response.json();
                 
-                // Add this to the successful vote handler
                 if (data.success) {
                     // Show feedback message
                     feedbackElement.style.display = 'block';
@@ -114,19 +113,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         location.reload();
                     }, 3000);
                 } else {
-                    alert('Det oppstod en feil. Prøv igjen senere.');
+                    // Show error toast instead of alert
+                    showToast(data.message || 'Det oppstod en feil. Prøv igjen senere.', 3000);
                     // Re-enable buttons on error
                     voteButtons.forEach(btn => btn.disabled = false);
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Det oppstod en feil. Prøv igjen senere.');
+                showToast('Det oppstod en feil. Prøv igjen senere.', 3000);
                 // Re-enable buttons on error
                 voteButtons.forEach(btn => btn.disabled = false);
             }
         });
     });
     
-    // Fetch statistics on page load - only once
+    // Fetch statistics on page load
     updateStatistics();
 });

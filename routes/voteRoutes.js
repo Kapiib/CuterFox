@@ -1,6 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const FoxVote = require('../models/foxVote');
+const rateLimit = require('express-rate-limit');
+
+// Rate limiter middleware
+const voteRateLimiter = rateLimit({
+    windowMs: 10 * 1000,  // 10 seconds window
+    max: 3, // limit each IP to 3 votes in 10 seconds
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { 
+        success: false, 
+        message: 'For mange avstemninger. Vennligst vent litt før du stemmer igjen.' 
+    },
+    skipSuccessfulRequests: false
+});
 
 /**
  * POST route to register a vote for a fox image
@@ -8,7 +22,7 @@ const FoxVote = require('../models/foxVote');
  * Creates a new record if the image hasn't been voted on before
  * Otherwise increments the existing vote count
  */
-router.post('/', async (req, res) => {
+router.post('/', voteRateLimiter, async (req, res) => {
     try {
         const { imageUrl } = req.body;
         

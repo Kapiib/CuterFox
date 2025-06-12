@@ -102,8 +102,8 @@ Henter rangeringen av de mest populære revebildene.
 
 #### Tabell: foxVotes
 - `_id`: ObjectId (primærnøkkel)
-- `imageUrl`: String (fremmednøkkel til foxImages.imageUrl)
-- `timestamp`: Date
+- `imageUrl`: String (URL til revebildet)
+- `timestamp`: Date (tidspunkt for stemmen)
 - `userIdentifier`: String (anonym brukeridentifikator)
 
 ### IP-plan
@@ -144,3 +144,35 @@ Henter rangeringen av de mest populære revebildene.
 3. **Cross-Site Request Forgery (CSRF)**
    - Beskrivelse: Tvinger brukere til å utføre uønskede handlinger på en applikasjon de er autentisert på.
    - Mottak: Bruk anti-CSRF tokens for alle POST-forespørsler.
+
+### Tiltak for å redusere risiko for sikkerhetsbrudd
+
+For å beskytte systemet mot sikkerhetsbrudd implementeres følgende tiltak:
+
+1. **Regelmessige sikkerhetsoppdateringer**
+   - Alle biblioteker og avhengigheter oppdateres jevnlig for å lukke kjente sårbarheter.
+   - Automatiserte verktøy som npm audit brukes for å identifisere sikkerhetsproblemer.
+
+2. **Sikker konfigurasjon**
+   - Sensitive variabler lagres i miljøvariabler, ikke i kildekoden.
+   - Produksjonsmiljøet bruker HTTPS med gyldig SSL-sertifikat.
+   - HTTP-headere konfigureres for økt sikkerhet (X-XSS-Protection, Content-Security-Policy).
+
+3. **Logging og overvåkning**
+   - Implementering av omfattende logging for alle API-forespørsler.
+   - Automatisk varsling ved mistenkelige mønstre eller uvanlig trafikk.
+   - Regelmessig gjennomgang av logger for å identifisere potensielle trusler.
+
+4. **Autentisering og autorisasjon**
+   - Bruk av JWT med kort levetid for API-autentisering.
+   - Implementering av "least privilege" prinsippet - brukere får kun tilgang til nødvendige ressurser.
+
+5. **Sikker kodegjennomgang**
+   - Regelmessige kodegjennomganger med fokus på sikkerhet.
+   - Automatiserte statiske kodeanalyser for å finne potensielle sårbarheter.
+   - Penetrasjonstesting før større oppdateringer.
+
+6. **Backup og gjenopprettingsplan**
+   - Regelmessige backups av databasen.
+   - Dokumentert prosedyre for gjenoppretting etter sikkerhetsbrudd.
+   - Testede gjenopprettingsrutiner for å sikre minimal nedetid.
